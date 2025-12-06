@@ -1,0 +1,249 @@
+:root {
+    --primary-color: #003366;
+    /* Navy Blue Institucional */
+    --secondary-color: #858796;
+    --success-color: #28a745;
+    --info-color: #17a2b8;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+    --light-bg: #f4f6f9;
+    --dark-text: #2c3e50;
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --gradient-primary: linear-gradient(135deg, #003366 0%, #0056b3 100%);
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--light-bg);
+    color: var(--dark-text);
+}
+
+/* Navbar */
+.navbar {
+    background: var(--gradient-primary) !important;
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.nav-link {
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.nav-link:hover {
+    color: #fff !important;
+    transform: translateY(-1px);
+}
+
+/* Cards */
+.card {
+    border: none;
+    border-radius: 0.75rem;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important;
+}
+
+.card-header {
+    background-color: #fff;
+    border-bottom: 1px solid #e3e6f0;
+    font-weight: 700;
+    color: var(--primary-color);
+    border-radius: 0.75rem 0.75rem 0 0 !important;
+}
+
+/* Dashboard Stats Cards */
+.stats-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.stats-card .card-body {
+    z-index: 2;
+    position: relative;
+}
+
+.stats-card i {
+    opacity: 0.3;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    font-size: 4rem;
+    transform: rotate(-15deg);
+    transition: all 0.3s;
+}
+
+.stats-card:hover i {
+    transform: rotate(0deg) scale(1.1);
+    opacity: 0.5;
+}
+
+/* Buttons */
+.btn {
+    border-radius: 0.35rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    transition: all 0.2s;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: #2e59d9;
+    border-color: #2653d4;
+}
+
+/* Tables */
+.table {
+    color: var(--dark-text);
+}
+
+.table thead th {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, .02);
+}
+
+/* Glasspropmsim & Premium Stats */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 1rem;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+}
+
+/* Premium Stats / Dashboard Tiles - "Ultra Stylized" */
+.stat-widget {
+    position: relative;
+    padding: 2.5rem 2rem;
+    border-radius: 2rem;
+    /* Rounder corners */
+    background: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow:
+        0 10px 30px -5px rgba(0, 0, 0, 0.05),
+        0 4px 10px -2px rgba(0, 0, 0, 0.01);
+    /* Layered shadows for depth */
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    /* Bouncy spring transition */
+    text-align: center;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+/* Hover Effect: Lift & Shine */
+.stat-widget:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow:
+        0 25px 50px -12px rgba(0, 51, 102, 0.25),
+        0 10px 20px -5px rgba(0, 0, 0, 0.05);
+    border-color: rgba(255, 255, 255, 0);
+}
+
+/* Background decorative blob for hover effect (Subtle) */
+.stat-widget::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 0;
+}
+
+.stat-widget:hover::before {
+    opacity: 1;
+}
+
+.stat-icon-wrapper {
+    width: 90px;
+    height: 90px;
+    border-radius: 24px;
+    /* Modern Squircle */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    font-size: 3rem;
+    color: #fff;
+    /* Always white icon */
+    z-index: 1;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.stat-widget:hover .stat-icon-wrapper {
+    transform: scale(1.15) rotate(-3deg);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.stat-value {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: #2c3e50;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    z-index: 1;
+    letter-spacing: -2px;
+    /* Tight modern tracking */
+}
+
+.stat-label {
+    font-size: 1rem;
+    color: #858796;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    z-index: 1;
+}
+
+/* Vibrant Gradients by Default */
+.stat-widget.primary .stat-icon-wrapper {
+    background: linear-gradient(135deg, #4e73df 0%, #224abe 100%);
+    box-shadow: 0 8px 15px rgba(78, 115, 223, 0.3);
+}
+
+.stat-widget.success .stat-icon-wrapper {
+    background: linear-gradient(135deg, #1cc88a 0%, #13855c 100%);
+    box-shadow: 0 8px 15px rgba(28, 200, 138, 0.3);
+}
+
+.stat-widget.warning .stat-icon-wrapper {
+    background: linear-gradient(135deg, #f6c23e 0%, #dda20a 100%);
+    box-shadow: 0 8px 15px rgba(246, 194, 62, 0.3);
+}
+
+.stat-widget.info .stat-icon-wrapper {
+    background: linear-gradient(135deg, #36b9cc 0%, #258391 100%);
+    box-shadow: 0 8px 15px rgba(54, 185, 204, 0.3);
+}
+
+.stat-widget.danger .stat-icon-wrapper {
+    background: linear-gradient(135deg, #e74a3b 0%, #be2617 100%);
+    box-shadow: 0 8px 15px rgba(231, 74, 59, 0.3);
+}

@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  # --- SERVICIO 1: BASE DE DATOS (Ya lo tienes, pero aseguro la config) ---
+  db_final:
+    image: postgres:15
+    container_name: db_biblioteca_final
+    restart: always
+    environment:
+      POSTGRES_USER: user_final
+      POSTGRES_PASSWORD: pass_final
+      POSTGRES_DB: db_biblioteca
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data_final:/var/lib/postgresql/data
+      # Scripts de inicialización (se ejecutan en orden alfabético)
+      - ./db_init/init.sql:/docker-entrypoint-initdb.d/01_init.sql
+      - ./db_init/seed.sql:/docker-entrypoint-initdb.d/02_seed.sql
+      - ./db_init/seed_images.sql:/docker-entrypoint-initdb.d/03_seed_images.sql
+
+  # --- SERVICIO 2: SERVIDOR WEB (PHP + APACHE) ---
+  web:
+    build: . # Construye usando el Dockerfile que acabamos de crear
+    container_name: web_biblioteca
+    environment:
+      - DB_HOST=db_final
+      - DB_NAME=db_biblioteca
+      - DB_USER=user_final
+      - DB_PASS=pass_final
+      - DB_PORT=5432
+    ports:
+      - "8000:80" # Entrarás por localhost:8080
+    volumes:
+      - .:/var/www/html # Mapea tu carpeta actual a la carpeta pública del servidor
+    depends_on:
+      - db_final # Espera a que la BD arranque primero
+
+volumes:
+  postgres_data_final:
