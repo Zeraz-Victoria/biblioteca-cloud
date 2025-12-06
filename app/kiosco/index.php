@@ -22,7 +22,7 @@ if (!isset($_SESSION['id_escuela'])) {
         <div style="margin-bottom: 30px;">
             <i class="fas fa-book-reader fa-4x" style="color: #003366; margin-bottom: 15px;"></i>
             <h1 style="font-size: 2.5rem; text-transform: uppercase; letter-spacing: 2px; margin: 0;">BIBLIOTECA ESCOLAR</h1>
-            <h2 style="font-size: 1.2rem; font-weight: 400; color: #666;">TS David Alfaro Siqueiros</h2>
+            <h2 style="font-size: 1.2rem; font-weight: 400; color: #666;"><?= htmlspecialchars($_SESSION['nombre_escuela'] ?? 'Mi Biblioteca') ?></h2>
         </div>
         
         <a href="prestamo_libro.php" class="kiosco-btn btn-borrow-book">

@@ -64,7 +64,9 @@ if (isset($_GET['ajax'])) {
 }
 
 // Initial Page Load
-$categorias = $conn->query("SELECT * FROM CATEGORIA ORDER BY Nombre_categoria ASC")->fetchAll(PDO::FETCH_ASSOC);
+$stmt_cats = $conn->prepare("SELECT * FROM CATEGORIA WHERE id_escuela = ? ORDER BY Nombre_categoria ASC");
+$stmt_cats->execute([$_SESSION['id_escuela']]);
+$categorias = $stmt_cats->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="es">
