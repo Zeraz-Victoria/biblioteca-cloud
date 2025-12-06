@@ -25,6 +25,14 @@ try {
     }
 
     if ($type === 'author') {
+        // Verificar duplicado
+        $check = $conn->prepare("SELECT Id_autor FROM AUTOR WHERE LOWER(Nombre_autor) = LOWER(?) AND id_escuela = ?");
+        $check->execute([$name, $id_escuela]);
+        if ($check->rowCount() > 0) {
+            echo json_encode(['success' => false, 'message' => 'El autor ya existe.']);
+            exit;
+        }
+
         $stmt = $conn->prepare("INSERT INTO AUTOR (id_escuela, Nombre_autor) VALUES (?, ?) RETURNING Id_autor");
         $stmt->execute([$id_escuela, $name]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -37,6 +45,14 @@ try {
         ]);
 
     } elseif ($type === 'category') {
+        // Verificar duplicado
+        $check = $conn->prepare("SELECT Id_categoria FROM CATEGORIA WHERE LOWER(Nombre_categoria) = LOWER(?) AND id_escuela = ?");
+        $check->execute([$name, $id_escuela]);
+        if ($check->rowCount() > 0) {
+            echo json_encode(['success' => false, 'message' => 'La categoría ya existe.']);
+            exit;
+        }
+
         $stmt = $conn->prepare("INSERT INTO CATEGORIA (id_escuela, Nombre_categoria) VALUES (?, ?) RETURNING Id_categoria");
         $stmt->execute([$id_escuela, $name]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
