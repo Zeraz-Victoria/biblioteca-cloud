@@ -8,3 +8,9 @@ RUN apt-get update && apt-get install -y \
 
 # 2. Habilitamos mod_rewrite de Apache (útil para URLs amigables en el futuro)
 RUN a2enmod rewrite
+
+# 3. Copiamos el código de la aplicación al contenedor
+COPY . /var/www/html/
+
+# 4. Ajustamos permisos (opcional pero recomendado)
+RUN chown -R www-data:www-data /var/www/html
