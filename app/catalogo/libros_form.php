@@ -57,25 +57,35 @@ $categorias = $stmt_cats->fetchAll(PDO::FETCH_ASSOC);
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="autor" class="form-label">Autor</label>
-                            <select class="form-select" id="autor" name="id_autor" required>
-                                <option value="">Seleccione un autor</option>
-                                <?php foreach ($autores as $autor): ?>
-                                    <option value="<?= $autor['id_autor'] ?>" <?= ($libro && $libro['id_autor'] == $autor['id_autor']) ? 'selected' : '' ?>>
-                                        <?= htmlspecialchars($autor['nombre_autor']) ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
+                            <div class="input-group">
+                                <select class="form-select" id="autor" name="id_autor" required>
+                                    <option value="">Seleccione un autor</option>
+                                    <?php foreach ($autores as $autor): ?>
+                                        <option value="<?= $autor['id_autor'] ?>" <?= ($libro && $libro['id_autor'] == $autor['id_autor']) ? 'selected' : '' ?>>
+                                            <?= htmlspecialchars($autor['nombre_autor']) ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalAutor">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="categoria" class="form-label">Categoría</label>
-                            <select class="form-select" id="categoria" name="id_categoria" required>
-                                <option value="">Seleccione una categoría</option>
-                                <?php foreach ($categorias as $categoria): ?>
-                                    <option value="<?= $categoria['id_categoria'] ?>" <?= ($libro && $libro['id_categoria'] == $categoria['id_categoria']) ? 'selected' : '' ?>>
-                                        <?= htmlspecialchars($categoria['nombre_categoria']) ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
+                            <div class="input-group">
+                                <select class="form-select" id="categoria" name="id_categoria" required>
+                                    <option value="">Seleccione una categoría</option>
+                                    <?php foreach ($categorias as $categoria): ?>
+                                        <option value="<?= $categoria['id_categoria'] ?>" <?= ($libro && $libro['id_categoria'] == $categoria['id_categoria']) ? 'selected' : '' ?>>
+                                            <?= htmlspecialchars($categoria['nombre_categoria']) ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#modalCategoria">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
 
@@ -103,5 +113,79 @@ $categorias = $stmt_cats->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 </div>
+
+<!-- Modal Nuevo Autor -->
+<div class="modal fade" id="modalAutor" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Nuevo Autor</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="newAutorName" class="form-control" placeholder="Nombre del Autor">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="quickAdd('author')">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Nueva Categoría -->
+<div class="modal fade" id="modalCategoria" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Nueva Categoría</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="newCatName" class="form-control" placeholder="Nombre de la Categoría">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="quickAdd('category')">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+async function quickAdd(type) {
+    const inputId = type === 'author' ? 'newAutorName' : 'newCatName';
+    const modalId = type === 'author' ? '#modalAutor' : '#modalCategoria';
+    const selectId = type === 'author' ? 'autor' : 'categoria';
+    const name = document.getElementById(inputId).value;
+
+    if (!name) return alert('Escribe un nombre');
+
+    try {
+        const res = await fetch('quick_add.php', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ type, name })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+            // Agregar opción al select y seleccionarla
+            const select = document.getElementById(selectId);
+            const option = new Option(data.name, data.id, true, true);
+            select.add(option);
+            
+            // Cerrar modal y limpiar
+            document.getElementById(inputId).value = '';
+            var modalEl = document.querySelector(modalId);
+            var modal = bootstrap.Modal.getInstance(modalEl);
+            modal.hide();
+        } else {
+            alert('Error: ' + data.message);
+        }
+    } catch (e) {
+        console.error(e);
+        alert('Error de conexión');
+    }
+}
+</script>
 
 <?php include '../footer.php'; ?>
