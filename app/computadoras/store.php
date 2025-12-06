@@ -1,3 +1,4 @@
+<?php
 session_start();
 if (!isset($_SESSION['id_escuela'])) {
     header("Location: ../login.php");
