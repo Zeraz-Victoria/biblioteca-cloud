@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || isset($_GET['action'])) {
             $total = $_POST['total_ejemplares'];
             $disponibles = $_POST['ejemplares_disponibles'];
 
-            $sql = "INSERT INTO LIBRO (id_escuela, Titulo_libro, Id_autor, Id_categoria, Anio_publicacion, Total_ejemplares, Ejemplares_disponibles) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $sql = "INSERT INTO LIBRO (id_escuela, Titulo_libro, Id_autor, Id_categoria, Anio_publicacion, Ejemplares_totales, Ejemplares_disponibles) VALUES (?, ?, ?, ?, ?, ?, ?)";
             $stmt = $conn->prepare($sql);
             $stmt->execute([$id_escuela, $titulo, $autor, $categoria, $anio, $total, $disponibles]);
 
@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' || isset($_GET['action'])) {
             $total = $_POST['total_ejemplares'];
             $disponibles = $_POST['ejemplares_disponibles'];
 
-            $sql = "UPDATE LIBRO SET Titulo_libro = ?, Id_autor = ?, Id_categoria = ?, Anio_publicacion = ?, Total_ejemplares = ?, Ejemplares_disponibles = ? WHERE Id_libro = ? AND id_escuela = ?";
+            $sql = "UPDATE LIBRO SET Titulo_libro = ?, Id_autor = ?, Id_categoria = ?, Anio_publicacion = ?, Ejemplares_totales = ?, Ejemplares_disponibles = ? WHERE Id_libro = ? AND id_escuela = ?";
             $stmt = $conn->prepare($sql);
             $stmt->execute([$titulo, $autor, $categoria, $anio, $total, $disponibles, $id, $id_escuela]);
 
