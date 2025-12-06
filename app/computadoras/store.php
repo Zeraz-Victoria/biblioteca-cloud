@@ -1,7 +1,12 @@
-<?php
+session_start();
+if (!isset($_SESSION['id_escuela'])) {
+    header("Location: ../login.php");
+    exit;
+}
 require_once '../conexion.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $id_escuela = $_SESSION['id_escuela'];
     $nombre = $_POST['nombre'];
     $marca = $_POST['marca'];
     $estado = true; // Disponible
@@ -10,9 +15,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $conexion = new Conexion();
         $conn = $conexion->conectar();
 
-        $sql = "INSERT INTO COMPUTADORA (nombre, marca, estado) VALUES (:nombre, :marca, :estado)";
+        $sql = "INSERT INTO COMPUTADORA (id_escuela, nombre, marca, estado) VALUES (:id_escuela, :nombre, :marca, :estado)";
         
         $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':id_escuela', $id_escuela);
         $stmt->bindParam(':nombre', $nombre);
         $stmt->bindParam(':marca', $marca);
         $stmt->bindParam(':estado', $estado, PDO::PARAM_BOOL);
